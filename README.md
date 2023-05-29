@@ -6,10 +6,25 @@ Tienda con diseño propio.
   - Colors: https://huemint.com/website-2/#palette=020d29-f5d239-e2a41b-cc7c40
   - PC Componentes caregory views(aprox): https://www.pccomponentes.com/portatiles
   - Excalidraw Mobile: https://excalidraw.com/#json=JeCyn12QgAMM1Mr-9BU0T,bkaFkPQ8FrhNlhu7uFk2eA
+  - Poe Weapons: https://www.pathofexile.com/item-data/weapon
+  - NPcs: https://pathofexile.fandom.com/wiki/Vendor
+  - Unique Weapons: https://pathofexile.fandom.com/wiki/List_of_unique_weapons
 
 ## Ideas
   - Mobile first
-  - PoE Npcs products
+  - PoE Npcs products. 5 products/npc, 1 unique and some shared.
+  - Weapons object:
+    ```
+     {
+    name: '',
+    price: ,
+    seller: '',
+    level: ,
+    dps: ,
+    image: '',
+    },
+    ```
+  - Use the npc location from another object with a list of all npcs to show something in the product box?
 
 ## Criterios
 ### JavaScript
