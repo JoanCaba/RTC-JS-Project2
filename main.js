@@ -323,6 +323,15 @@ const getProductCardTemplate = (product) => {
   </div>`;
 };
 
+
+
+const filterOption = (seller) => {
+  const option = document.createElement("option");
+  option.text = seller;
+  return option;
+};
+
+
 const productsSelector = document.querySelector('#products');
 for (product of products) {
   productsSelector.innerHTML += getProductCardTemplate(product);
@@ -331,11 +340,59 @@ for (product of products) {
 
 // START filter sellers
 
-const filtersSelector = document.querySelector('#filter');
-
-for (seller of sellers) {
-  option = document.createElement("option");
-  option.text = seller.name;
-  sellersFilterSelect.add(option);
-
+const onButtonClearClicked = () => {
+  //TODO: Reset products list ->>> function to reset?
+  return
 };
+
+const onInputPriceFilterChanged = () => {
+  //TODO: Filter by price
+  return
+};
+
+//TODO: Refactor -> create functions as needed, change some variables names as required.
+const filtersSelector = document.querySelector('#filters');
+
+const filterLabel = document.createElement("label");
+filterLabel.htmlFor = "filter-sellers";
+filtersSelector.appendChild(filterLabel);
+
+const filterSelect = document.createElement("select");
+filterSelect.id = "filter-sellers";
+filtersSelector.appendChild(filterSelect);
+
+
+const createOptgroup = (labelName) => {
+  const optGroup = document.createElement("optgroup");
+  optGroup.label = labelName;
+  return optGroup;
+}
+let locations = [];
+for (seller of sellers) {
+  if (locations.includes(seller.location)) {
+    const optGroup = document.querySelector('optgroup[label="' + seller.location + '"]');
+    const option = filterOption(seller.name);
+    optGroup.appendChild(option);
+  } else {
+    const optGroup = createOptgroup(seller.location);
+    filterSelect.appendChild(optGroup);
+    const option = filterOption(seller.name);
+    optGroup.appendChild(option);
+    locations.push(seller.location);
+  }
+};
+
+
+/*
+
+
+      <label for="filter-sellers">Filter</label>
+      <select name="" id="filter-sellers"></select>
+
+
+      <label for="filter-price"></label>
+      <input type="number" id="filter-price">
+      <button>limpiar</button>
+
+
+*/
