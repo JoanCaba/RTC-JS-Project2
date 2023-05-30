@@ -57,4 +57,23 @@ const sellers = [
     location: "Lioneye's Watch",
     image: './assets/NPCs/Nessa.png',
   }
-]
+];
+/* 
+Create cards of the products.
+*/
+const getProductCardTemplate = (product) => {
+  return `<div class="${product.unique ? 'product-card product-card-unique' : 'product-card'}">
+  <img src="${product.image}"/>
+  <h3>${product.name}</h3>
+  <span>Level: ${product.level}</span>
+  <span>DPS: ${product.dps}</span>
+  <span>Price: ${product.price}</span>
+  <span>Sold by: ${product.seller}</span>
+  </div>`;
+};
+
+const productsList = document.querySelector('#products-list');
+for (product of products) {
+  productsList.innerHTML += getProductCardTemplate(product);
+}
+// END create card of the products

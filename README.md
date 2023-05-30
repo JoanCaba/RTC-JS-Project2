@@ -3,7 +3,7 @@
 Tienda con diseño propio.
 
 ## Referencias
-  - Colors: https://huemint.com/website-2/#palette=020d29-f5d239-e2a41b-cc7c40
+  - Colors: https://huemint.com/website-3/#palette=020d29-f5d239-e2a41b-cc7c40-d01c76-db1259
   - PC Componentes caregory views(aprox): https://www.pccomponentes.com/portatiles
   - Excalidraw Mobile: https://excalidraw.com/#json=JeCyn12QgAMM1Mr-9BU0T,bkaFkPQ8FrhNlhu7uFk2eA
   - Poe Weapons: https://www.pathofexile.com/item-data/weapon
@@ -39,3 +39,7 @@ Tienda con diseño propio.
   - Los elementos a vender en la tienda comparten la misma clase de CSS, que define una carta de producto y tiene algún efecto :hover cuando pasa el ratón sobre ellas.
   - La web cuenta con media queries para escritorio y móvil. Así como una correcta estructura y posicionamiento de elementos por medio de flex o grid .
   - Los productos tienen imágenes correctas que se ven en la carta de componente de cada uno
+
+
+## TODO
+  - Add more products and sellers
