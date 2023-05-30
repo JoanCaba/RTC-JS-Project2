@@ -4,6 +4,8 @@ Tienda con diseño propio.
 
 ## Referencias
   - Colors: https://huemint.com/website-3/#palette=020d29-f5d239-e2a41b-cc7c40-d01c76-db1259
+    - Gradient A:https://huemint.com/gradient-4/#palette=020d29-033643-0f696d-0095a0
+    - Gradient B: https://huemint.com/gradient-4/#palette=020d29-6f7258-cb8711-cc7c40
   - PC Componentes caregory views(aprox): https://www.pccomponentes.com/portatiles
   - Excalidraw Mobile: https://excalidraw.com/#json=JeCyn12QgAMM1Mr-9BU0T,bkaFkPQ8FrhNlhu7uFk2eA
   - Poe Weapons: https://www.pathofexile.com/item-data/weapon

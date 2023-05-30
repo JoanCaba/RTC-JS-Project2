@@ -6,6 +6,16 @@
   --quaternary-color: #cc7c40;
   --contrast-color:#d01c76;
   --high-contrast-color:#db1259;
+ --primary-gradient: linear-gradient(-45deg, 
+        var(--primary-color), 
+        #033643,
+        #0f696d, 
+        #0095a0);
+ --secondary-gradient: linear-gradient(-45deg, 
+        var(--primary-color), 
+        #6f7258, 
+        #cb8711, 
+        var(--quaternary-color));
 
 }
 * {
@@ -19,6 +29,7 @@ body {
   background-color: var(--primary-color);
 }
 
+/* START: ProductCard styles */
 #products-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -35,6 +46,12 @@ body {
   border-radius: 15px;
   overflow: hidden;
   border: 2px solid var(--secondary-color);
+
+	background: var(--primary-gradient);
+  	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+
+
 }
 .product-card img {
   max-height: 180px;
@@ -61,17 +78,20 @@ body {
   position: absolute;
     top: 8rem;
     right: 3px;
-text-align: center;
+    text-align: center;
     padding: 2px;
     border-radius: 3px;
     width: 90px;
-    border: 2px solid var(--secondary-color);
-    background-color: var(--high-contrast-color);
-    color: var(--secondary-color);
-    animation: flip-vertical-right 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s forwards infinite;
+    border: 2px solid var(--high-contrast-color);
+    background-color: var(--tertiary-color);
+    color: var(--high-contrast-color);
+    animation: flip-vertical-right 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
     backface-visibility: hidden;
 }
 .product-card span:nth-child(4) {
+  border: 2px solid var(--secondary-color);
+  background-color: var(--high-contrast-color);
+  color: var(--secondary-color);
   animation: flip-vertical-left 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
 }
 .product-card span:nth-child(5) {
@@ -90,7 +110,11 @@ text-align: center;
 }
 .product-card-unique {
   background-color: var(--quaternary-color);
+  background: var(--secondary-gradient);
+  background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
 }
+
 
 @keyframes flip-vertical-right {
   0% {
@@ -117,3 +141,17 @@ text-align: center;
             transform: rotateY(180deg);
   }
 } 
+
+/* END: ProductCard styles */
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
