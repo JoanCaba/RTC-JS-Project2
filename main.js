@@ -309,9 +309,10 @@ const sellers = [
     image: './assets/NPCs/Utula.png',
   },
 ];
-/* 
-// START: Create cards of the products.
-*/
+
+const filtersSection = document.querySelector('#filters');
+const productsSection = document.querySelector('#products');
+
 const getProductCardTemplate = (product) => {
   return `<div class="${product.unique ? 'product-card product-card-unique' : 'product-card'}">
   <img src="${product.image}"/>
@@ -323,22 +324,42 @@ const getProductCardTemplate = (product) => {
   </div>`;
 };
 
-
-
-const filterOption = (seller) => {
+const createFilterOption = (optionName) => {
   const option = document.createElement("option");
-  option.text = seller;
+  option.text = optionName;
   return option;
 };
-
-
-const productsSelector = document.querySelector('#products');
-for (product of products) {
-  productsSelector.innerHTML += getProductCardTemplate(product);
+const createOptgroup = (labelName) => {
+  const optGroup = document.createElement("optgroup");
+  optGroup.label = labelName;
+  return optGroup;
 };
-// END create card of the products
-
-// START filter sellers
+const createSellerFilterSelect = (filterId, options, optgroups) => {
+  const filterBox = document.createElement("div")
+  const filterLabel = document.createElement("label");
+  filterLabel.htmlFor = filterId;
+  filterBox.appendChild(filterLabel);
+  const filterSelect = document.createElement("select");
+  filterSelect.id = filterId;
+  filterBox.appendChild(filterSelect);
+  if (optgroups) {
+    for (optgroup of optgroups) {
+      const optgroupElement = createOptgroup(optgroup);
+      filterSelect.appendChild(optgroupElement);
+    }
+  }
+  filtersSection.appendChild(filterBox);
+  for (option of options) {
+    const filterOption = createFilterOption(option.optionName);
+    if (optgroups && optgroups.includes(option.optgroupName)) {
+      const optgroupSelector = document.querySelector('optgroup[label="' + option.optgroupName + '"]');
+      optgroupSelector.appendChild(filterOption);
+    } else {
+      filterSelect.appendChild(filterOption);
+    }
+  }
+  return filterBox;
+};
 
 const onButtonClearClicked = () => {
   //TODO: Reset products list ->>> function to reset?
@@ -350,23 +371,16 @@ const onInputPriceFilterChanged = () => {
   return
 };
 
-//TODO: Refactor -> create functions as needed, change some variables names as required.
-const filtersSelector = document.querySelector('#filters');
 
-const filterLabel = document.createElement("label");
-filterLabel.htmlFor = "filter-sellers";
-filtersSelector.appendChild(filterLabel);
+for (product of products) {
+  productsSection.innerHTML += getProductCardTemplate(product);
+};
 
-const filterSelect = document.createElement("select");
-filterSelect.id = "filter-sellers";
-filtersSelector.appendChild(filterSelect);
-
-
-const createOptgroup = (labelName) => {
-  const optGroup = document.createElement("optgroup");
-  optGroup.label = labelName;
-  return optGroup;
-}
+const sellersLocations = [... new Set(sellers.map(seller => seller.location))];
+const sellersOptionsGroups = sellers.map(seller => ({ optionName: seller.name, optgroupName: seller.location }));
+createSellerFilterSelect("filter-select-sellers", sellersOptionsGroups, sellersLocations);
+createSellerFilterSelect("filter-select-uniques", [{ optionName: true }, { optionName: false }]);
+/*
 let locations = [];
 for (seller of sellers) {
   if (locations.includes(seller.location)) {
@@ -396,3 +410,4 @@ for (seller of sellers) {
 
 
 */
+
