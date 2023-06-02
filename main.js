@@ -324,8 +324,9 @@ const getProductCardTemplate = (product) => {
   </div>`;
 };
 
-const createFilterOption = (optionName) => {
+const createFilterOption = (optionName, type) => {
   const option = document.createElement("option");
+  option.value = type + "-" + optionName;
   option.text = optionName;
   return option;
 };
@@ -334,14 +335,51 @@ const createOptgroup = (labelName) => {
   optGroup.label = labelName;
   return optGroup;
 };
-const createSellerFilterSelect = (filterId, options, optgroups) => {
+const onOptionChanged = (input) => {
+  const filterSellers = document.querySelector('#filter-sellers');
+  const filterUniques = document.querySelector('#filter-uniques');
+  const sellerToFilter = filterSellers.value.split('-')[1];
+  const sellerToFilterType = filterSellers.value.split('-')[0];
+  const filterUniquesStatus = filterUniques.value.split('-')[1];
+  const filterUniquesType = filterUniques.value.split('-')[0];
+  let productsFiltered = [];
+  productsFiltered = products;
+  if (!(sellerToFilterType === "Default")) {
+    const filterSellersFiltered = products.filter((products) => products.seller.toLowerCase().includes(sellerToFilter.toLowerCase()));
+    productsFiltered = filterSellersFiltered;
+  }
+  if (!(filterUniquesType === "Default")) {
+    if (filterUniquesStatus === 'true') {
+      productsFiltered = productsFiltered.filter((products) => products.unique);
+    } else {
+      productsFiltered = productsFiltered.filter((products) => !products.unique);
+    }
+  }
+  updateProductsSection(productsFiltered)
+
+
+
+
+
+  /*   const type = input.target.value.split('-')[0];
+    const optionName = input.target.value.split('-')[1];
+    if (type === 'sellers') {
+      const productsFiltered = products.filter((products) => products.seller.toLowerCase().includes(optionName.toLowerCase()));
+      updateProductsSection(productsFiltered);
+    } */
+
+};
+const createSellerFilterSelect = (type, options, optgroups) => {
   const filterBox = document.createElement("div")
   const filterLabel = document.createElement("label");
-  filterLabel.htmlFor = filterId;
+  filterLabel.htmlFor = "filter-" + type;
   filterBox.appendChild(filterLabel);
   const filterSelect = document.createElement("select");
-  filterSelect.id = filterId;
+  filterSelect.addEventListener('change', onOptionChanged);
+  filterSelect.id = "filter-" + type;
   filterBox.appendChild(filterSelect);
+  const filterDefaultOption = createFilterOption(`All ${type}`, "Default");
+  filterSelect.appendChild(filterDefaultOption)
   if (optgroups) {
     for (optgroup of optgroups) {
       const optgroupElement = createOptgroup(optgroup);
@@ -349,8 +387,9 @@ const createSellerFilterSelect = (filterId, options, optgroups) => {
     }
   }
   filtersSection.appendChild(filterBox);
+
   for (option of options) {
-    const filterOption = createFilterOption(option.optionName);
+    const filterOption = createFilterOption(option.optionName, type);
     if (optgroups && optgroups.includes(option.optgroupName)) {
       const optgroupSelector = document.querySelector('optgroup[label="' + option.optgroupName + '"]');
       optgroupSelector.appendChild(filterOption);
@@ -371,15 +410,29 @@ const onInputPriceFilterChanged = () => {
   return
 };
 
+const filterByProductName = (word, products) => {
+  const result = products.filter((products) => products.name.toLowerCase().includes(word.toLowerCase()));
+  return result;
 
-for (product of products) {
-  productsSection.innerHTML += getProductCardTemplate(product);
 };
+
+const updateProductsSection = (products) => {
+  productsSection.innerHTML = [];
+  for (product of products) {
+    productsSection.innerHTML += getProductCardTemplate(product);
+  };
+};
+console.log(filterByProductName("Bow", products))
+
+
+/* for (product of products) {
+  productsSection.innerHTML += getProductCardTemplate(product);
+}; */
 
 const sellersLocations = [... new Set(sellers.map(seller => seller.location))];
 const sellersOptionsGroups = sellers.map(seller => ({ optionName: seller.name, optgroupName: seller.location }));
-createSellerFilterSelect("filter-select-sellers", sellersOptionsGroups, sellersLocations);
-createSellerFilterSelect("filter-select-uniques", [{ optionName: true }, { optionName: false }]);
+createSellerFilterSelect("sellers", sellersOptionsGroups, sellersLocations);
+createSellerFilterSelect("uniques", [{ optionName: true }, { optionName: false }]);
 /*
 let locations = [];
 for (seller of sellers) {
@@ -411,3 +464,4 @@ for (seller of sellers) {
 
 */
 
+updateProductsSection(products);
