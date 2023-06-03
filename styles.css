@@ -1,5 +1,26 @@
 :root {
+/*
+bg color #5a3806
+    background: #000 url(/protected/image/layout/crucible-bg.jpg?v=1682897766942&key=eWUOOCmfNaN7mG2fFatw5Q) no-repeat top center fixed;
 
+background inputs 1e2124
+text color 1 #a38d6d
+borders color  #465260
+borders color 2 #634928
+general text color #fff8e1
+background color text inputs rgba(45,49,54,.3)
+*/
+
+--primary-background: #5a3806ce;
+--secondary-background: #1e2124ce;
+--primary-text: #fff8e1;
+--secondary-text: #a38d6d;
+--primary-border: #465260;
+--secondary-border: #634928;
+--contrast-color:#d01c76;
+--high-contrast-color:#db1259;
+
+/*
   --primary-color: #020d29;
   --secondary-color: #f5d239;
   --tertiary-color: #e2a41b;
@@ -16,6 +37,7 @@
         #6f7258, 
         #cb8711, 
         var(--quaternary-color));
+        */
 
 }
 * {
@@ -23,10 +45,10 @@
   margin: 0;
   padding: 0;
   font-family: 'Inconsolata', monospace;
-  color: var(--secondary-color)
+  color: var(--primary-text);
 }
 body {
-  background-color: var(--primary-color);
+  background: #000 url(./assets/crucible-background.jpg) no-repeat top center fixed;
 }
 label {
   text-transform: capitalize;
@@ -49,8 +71,8 @@ label::after{
   justify-content: space-between;
   flex-direction: column;
   border-radius: 15px;
-  border: 2px solid var(--secondary-color);
-	background: var(--primary-gradient);
+  border: 2px solid var(--secondary-border);
+	background: var(--secondary-background);
   background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 }
@@ -66,7 +88,7 @@ label::after{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--contrast-color);
+  background-color: var(--primary-background);
   text-align:center;
   height: 2.5em;
   border-radius: 10px;
@@ -76,7 +98,7 @@ label::after{
 .product-card span {
   display: block;
 }
-/* DPS = 3 Level = 4*/
+/* DPS = 4 Level = 3*/
 .product-card span:nth-child(4),span:nth-child(3) {
   position: absolute;
     top: 8rem;
@@ -85,24 +107,23 @@ label::after{
     padding: 2px;
     border-radius: 3px;
     width: 90px;
-    border: 2px solid var(--high-contrast-color);
-    background-color: var(--tertiary-color);
-    color: var(--high-contrast-color);
+    border: 2px solid var(--primary-border);
+    background-color: var(--primary-background);
+    color: var(--secondary-text);
     animation: flip-vertical-right 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
     backface-visibility: hidden;
 }
 .product-card span:nth-child(4) {
-  border: 2px solid var(--secondary-color);
-  background-color: var(--high-contrast-color);
-  color: var(--secondary-color);
-
+  border: 2px solid var(--secondary-border);
+  background-color: var(--secondary-background);
+  color: var(--primary-text);
   animation: flip-vertical-left 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
 }
 /* PRICE */
 .product-card span:nth-child(5) {
-  background-color: var(--tertiary-color);
-  color: var(--high-contrast-color);
-  border: 5px solid var(--high-contrast-color);
+  background-color: var(--primary-background);
+  color: var(--primary-text);
+  border: 5px solid var(--primary-border);
   text-align: center;
   font-size: large;
   font-weight: bold;
@@ -116,12 +137,14 @@ label::after{
   right: 5px;
 }
 .product-card-unique {
-  background-color: var(--quaternary-color);
-  background: var(--secondary-gradient);
+  border: 2px solid var(--primary-border);
+  background-color: var(--primary-background);
   background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 }
-
+.product-card-unique > h3 {
+  background-color: var(--secondary-background);
+}
 .product-card:hover img{
  transform: scale(1.5);
  left: 20px;
@@ -168,4 +191,8 @@ label::after{
 
 /* END: ProductCard styles */
 
-
+#filters *{
+ color: var(--secondary-text);
+ background-color: var(--secondary-background);
+ border: 2px solid var(--secondary-border);
+}

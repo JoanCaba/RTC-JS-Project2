@@ -312,6 +312,20 @@ const sellers = [
 
 const filtersSection = document.querySelector('#filters');
 const productsSection = document.querySelector('#products');
+const getProductCardTemplate = (product) => {
+  return `<div class="${product.unique ? 'product-card product-card-unique' : 'product-card'}">
+  <img src="${product.image}"/>
+  <h3>${product.name}</h3>
+  <span>Level: ${product.level}</span>
+  <span>DPS: ${product.dps}</span>
+  <span>Price: ${product.price}</span>
+  <span>Seller: ${product.seller}</span>
+  </div>`;
+};
+
+const getHeaderTemplate = () => {
+
+};
 
 const sellerLocationsToArray = () => {
   // this => [... new Set(sellers.map(seller => seller.location))] also works.
@@ -324,16 +338,7 @@ const sellerLocationsToArray = () => {
   return locations;
 };
 
-const getProductCardTemplate = (product) => {
-  return `<div class="${product.unique ? 'product-card product-card-unique' : 'product-card'}">
-  <img src="${product.image}"/>
-  <h3>${product.name}</h3>
-  <span>Level: ${product.level}</span>
-  <span>DPS: ${product.dps}</span>
-  <span>Price: ${product.price}</span>
-  <span>Seller: ${product.seller}</span>
-  </div>`;
-};
+
 
 const createFilterOption = (optionName, type) => {
   const option = document.createElement("option");
@@ -357,7 +362,7 @@ const filterBySeller = (seller, products) => {
   return result
 };
 const filterByUnique = (unique, products) => {
-  if (unique === 'Only uniques') {
+  if (unique === 'Uniques') {
     const result = products.filter((product) => product.unique);
     return result;
   } else {
@@ -373,7 +378,7 @@ const filterByPrice = (price, products) => {
 
 const onFilterChanged = () => {
   const filterSellers = document.querySelector('#filter-sellers');
-  const filterUniques = document.querySelector('#filter-uniques');
+  const filterUniques = document.querySelector('#filter-rarity');
   const filterPrice = document.querySelector('#filter-price');
   const filterName = document.querySelector('#filter-name');
   const sellerToFilter = filterSellers.value.split('-')[1];
@@ -434,7 +439,9 @@ const createFilterSelect = (type, options, optgroups) => {
 const resetAllFilters = () => {
   const filters = document.querySelectorAll('select[id^="filter"');
   const priceFilter = document.querySelector('#filter-price');
+  const priceName = document.querySelector('#filter-name');
   priceFilter.value = null;
+  priceName.value = null;
   filters.forEach((filterSelect) => {
     filterSelect.firstChild.selected = true;
   })
@@ -471,12 +478,25 @@ const updateProductsSection = (products) => {
   for (product of products) {
     productsSection.innerHTML += getProductCardTemplate(product);
   };
+  if (products.length == 0) {
+    productsSection.innerHTML += `<h2> Sorry, there are no results with the selected filters. 
+                                  <button class="clear-button-notfound" type="button">Clear filters</button>
+                                  </h2>
+                                  `;
+    const clearButton = document.querySelector(".clear-button-notfound");
+    clearButton.addEventListener('click', onButtonClearClicked);
+  }
 };
+const createHeader = () => { }
 
+
+products.sort((a, b) => {
+  return a.price - b.price;
+});
 const sellersLocations = sellerLocationsToArray();
 const sellersOptionsGroups = sellers.map(seller => ({ optionName: seller.name, optgroupName: seller.location }));
 createFilterSelect("sellers", sellersOptionsGroups, sellersLocations);
-createFilterSelect("uniques", [{ optionName: "Only uniques" }, { optionName: "Only none uniques" }]);
+createFilterSelect("rarity", [{ optionName: "Uniques" }, { optionName: "None uniques" }]);
 createInputFilter("price", "number");
 createInputFilter("name", "text")
 createClearButton();
