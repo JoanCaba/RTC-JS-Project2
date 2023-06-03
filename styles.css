@@ -28,7 +28,12 @@
 body {
   background-color: var(--primary-color);
 }
-
+label {
+  text-transform: capitalize;
+}
+label::after{
+  content: ": ";
+}
 /* START: ProductCard styles */
 #products {
   display: grid;

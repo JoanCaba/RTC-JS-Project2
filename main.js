@@ -313,6 +313,17 @@ const sellers = [
 const filtersSection = document.querySelector('#filters');
 const productsSection = document.querySelector('#products');
 
+const sellerLocationsToArray = () => {
+  // this => [... new Set(sellers.map(seller => seller.location))] also works.
+  let locations = [];
+  for (seller of sellers) {
+    if (!(locations.includes(seller.location))) {
+      locations.push(seller.location);
+    }
+  }
+  return locations;
+};
+
 const getProductCardTemplate = (product) => {
   return `<div class="${product.unique ? 'product-card product-card-unique' : 'product-card'}">
   <img src="${product.image}"/>
@@ -335,50 +346,71 @@ const createOptgroup = (labelName) => {
   optGroup.label = labelName;
   return optGroup;
 };
-const onOptionChanged = (input) => {
+
+const filterByProductName = (word, products) => {
+  const result = products.filter((product) => product.name.toLowerCase().includes(word.toLowerCase()));
+  return result;
+
+};
+const filterBySeller = (seller, products) => {
+  const result = products.filter((product) => product.seller.toLowerCase().includes(seller.toLowerCase()));
+  return result
+};
+const filterByUnique = (unique, products) => {
+  if (unique === 'Only uniques') {
+    const result = products.filter((product) => product.unique);
+    return result;
+  } else {
+    const result = products.filter((product) => !product.unique);
+    return result;
+  }
+
+};
+const filterByPrice = (price, products) => {
+  const result = products.filter((product) => product.price <= price);
+  return result
+};
+
+const onFilterChanged = () => {
   const filterSellers = document.querySelector('#filter-sellers');
   const filterUniques = document.querySelector('#filter-uniques');
+  const filterPrice = document.querySelector('#filter-price');
+  const filterName = document.querySelector('#filter-name');
   const sellerToFilter = filterSellers.value.split('-')[1];
   const sellerToFilterType = filterSellers.value.split('-')[0];
   const filterUniquesStatus = filterUniques.value.split('-')[1];
   const filterUniquesType = filterUniques.value.split('-')[0];
+  const priceToFilter = filterPrice.value
+  const nameToFilter = filterName.value
   let productsFiltered = [];
   productsFiltered = products;
   if (!(sellerToFilterType === "Default")) {
-    const filterSellersFiltered = products.filter((products) => products.seller.toLowerCase().includes(sellerToFilter.toLowerCase()));
-    productsFiltered = filterSellersFiltered;
+    productsFiltered = filterBySeller(sellerToFilter, productsFiltered);
   }
   if (!(filterUniquesType === "Default")) {
-    if (filterUniquesStatus === 'true') {
-      productsFiltered = productsFiltered.filter((products) => products.unique);
-    } else {
-      productsFiltered = productsFiltered.filter((products) => !products.unique);
-    }
+    productsFiltered = filterByUnique(filterUniquesStatus, productsFiltered);
+  }
+  if (priceToFilter) {
+    productsFiltered = filterByPrice(priceToFilter, productsFiltered);
+  }
+  if (nameToFilter) {
+    productsFiltered = filterByProductName(nameToFilter, productsFiltered);
   }
   updateProductsSection(productsFiltered)
 
-
-
-
-
-  /*   const type = input.target.value.split('-')[0];
-    const optionName = input.target.value.split('-')[1];
-    if (type === 'sellers') {
-      const productsFiltered = products.filter((products) => products.seller.toLowerCase().includes(optionName.toLowerCase()));
-      updateProductsSection(productsFiltered);
-    } */
-
 };
-const createSellerFilterSelect = (type, options, optgroups) => {
-  const filterBox = document.createElement("div")
+const createFilterSelect = (type, options, optgroups) => {
+  const filterBox = document.createElement("div");
   const filterLabel = document.createElement("label");
   filterLabel.htmlFor = "filter-" + type;
+  filterLabel.innerText = type;
   filterBox.appendChild(filterLabel);
   const filterSelect = document.createElement("select");
-  filterSelect.addEventListener('change', onOptionChanged);
+  filterSelect.addEventListener('change', onFilterChanged);
   filterSelect.id = "filter-" + type;
   filterBox.appendChild(filterSelect);
-  const filterDefaultOption = createFilterOption(`All ${type}`, "Default");
+  const filterDefaultOption = createFilterOption(`All`, "Default");
+  filterDefaultOption.selected = true;
   filterSelect.appendChild(filterDefaultOption)
   if (optgroups) {
     for (optgroup of optgroups) {
@@ -399,21 +431,39 @@ const createSellerFilterSelect = (type, options, optgroups) => {
   }
   return filterBox;
 };
-
+const resetAllFilters = () => {
+  const filters = document.querySelectorAll('select[id^="filter"');
+  const priceFilter = document.querySelector('#filter-price');
+  priceFilter.value = null;
+  filters.forEach((filterSelect) => {
+    filterSelect.firstChild.selected = true;
+  })
+  updateProductsSection(products)
+};
+const createClearButton = () => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.innerHTML = "Clear filters"
+  button.addEventListener('click', onButtonClearClicked);
+  filtersSection.appendChild(button);
+};
 const onButtonClearClicked = () => {
-  //TODO: Reset products list ->>> function to reset?
+  resetAllFilters()
   return
 };
-
-const onInputPriceFilterChanged = () => {
-  //TODO: Filter by price
-  return
-};
-
-const filterByProductName = (word, products) => {
-  const result = products.filter((products) => products.name.toLowerCase().includes(word.toLowerCase()));
-  return result;
-
+const createInputFilter = (typeName, inputType) => {
+  const filterBox = document.createElement("div");
+  const filterLabel = document.createElement("label");
+  const filterInput = document.createElement("input");
+  filterLabel.htmlFor = "filter-" + typeName;
+  filterLabel.innerHTML = "Filter by " + typeName;
+  filterBox.appendChild(filterLabel);
+  filterInput.type = inputType;
+  filterInput.id = "filter-" + typeName;
+  filterInput.name = "filter-" + typeName;
+  filterInput.addEventListener("input", onFilterChanged);
+  filterBox.appendChild(filterInput);
+  filtersSection.appendChild(filterBox);
 };
 
 const updateProductsSection = (products) => {
@@ -422,46 +472,12 @@ const updateProductsSection = (products) => {
     productsSection.innerHTML += getProductCardTemplate(product);
   };
 };
-console.log(filterByProductName("Bow", products))
 
-
-/* for (product of products) {
-  productsSection.innerHTML += getProductCardTemplate(product);
-}; */
-
-const sellersLocations = [... new Set(sellers.map(seller => seller.location))];
+const sellersLocations = sellerLocationsToArray();
 const sellersOptionsGroups = sellers.map(seller => ({ optionName: seller.name, optgroupName: seller.location }));
-createSellerFilterSelect("sellers", sellersOptionsGroups, sellersLocations);
-createSellerFilterSelect("uniques", [{ optionName: true }, { optionName: false }]);
-/*
-let locations = [];
-for (seller of sellers) {
-  if (locations.includes(seller.location)) {
-    const optGroup = document.querySelector('optgroup[label="' + seller.location + '"]');
-    const option = filterOption(seller.name);
-    optGroup.appendChild(option);
-  } else {
-    const optGroup = createOptgroup(seller.location);
-    filterSelect.appendChild(optGroup);
-    const option = filterOption(seller.name);
-    optGroup.appendChild(option);
-    locations.push(seller.location);
-  }
-};
-
-
-/*
-
-
-      <label for="filter-sellers">Filter</label>
-      <select name="" id="filter-sellers"></select>
-
-
-      <label for="filter-price"></label>
-      <input type="number" id="filter-price">
-      <button>limpiar</button>
-
-
-*/
-
+createFilterSelect("sellers", sellersOptionsGroups, sellersLocations);
+createFilterSelect("uniques", [{ optionName: "Only uniques" }, { optionName: "Only none uniques" }]);
+createInputFilter("price", "number");
+createInputFilter("name", "text")
+createClearButton();
 updateProductsSection(products);
