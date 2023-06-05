@@ -46,6 +46,4 @@ Tienda con diseño propio.
 
 
 ## TODO
-  - Header
-  - Footer
-  - CSS, styles colors etc
+  - media query

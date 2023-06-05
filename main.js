@@ -312,6 +312,7 @@ const sellers = [
 
 const filtersSection = document.querySelector('#filters');
 const productsSection = document.querySelector('#products');
+const mainElement = document.querySelector('main');
 const getProductCardTemplate = (product) => {
   return `<div class="${product.unique ? 'product-card product-card-unique' : 'product-card'}">
   <img src="${product.image}"/>
@@ -321,10 +322,6 @@ const getProductCardTemplate = (product) => {
   <span>Price: ${product.price}</span>
   <span>Seller: ${product.seller}</span>
   </div>`;
-};
-
-const getHeaderTemplate = () => {
-
 };
 
 const sellerLocationsToArray = () => {
@@ -505,7 +502,16 @@ const updateProductsSection = (productsToUpdate) => {
 
   productsSection.appendChild(productsBox)
 };
-const createHeader = () => { }
+const createHeader = () => {
+  const headerElement = document.createElement('header');
+  const footerElement = document.createElement('footer');
+  headerElement.innerHTML = `<h1> Path of Exile Npcs Shop</h1>`
+  footerElement.innerHTML = `<p>Created by Joan Cabañeros <a href="https://github.com/JoanCaba rel=noopener">@JoanCaba</a>. Source can be found in the <a href="https://github.com/JoanCaba/RTC-JS-Project2" rel=noopener> Github project</a></p>
+                              <p>This page is no way affiliated or endorsed by <a href="http://www.grindinggear.com/" rel=noopener> Grinding Gear Games</a>. The data and images are used without claim of ownership and belong to their respective owners.</p>`
+  mainElement.insertBefore(headerElement, mainElement.firstChild);
+
+  mainElement.append(footerElement)
+};
 
 products.sort((a, b) => {
   return a.price - b.price;
@@ -519,3 +525,4 @@ createInputFilter("price", "number");
 createInputFilter("name", "text")
 createClearButton();
 updateProductsSection(products);
+createHeader();
