@@ -476,15 +476,16 @@ const createSectionTitle = (title, section) => {
   titleElement.innerHTML = title;
   section.insertBefore(titleElement, section.firstChild);
 };
-const updateProductsSection = (products) => {
+const updateProductsSection = (productsToUpdate) => {
   let productsBox = document.querySelector('.products-list');
+
   if (!productsBox) {
     productsBox = document.createElement("div");
     productsBox.classList = 'products-list';
   };
   productsSection.innerHTML = [];
-
-  if (products.length == 0) {
+  productsBox.innerHTML = []
+  if (productsToUpdate.length == 0) {
     productsSection.innerHTML += `<h2 class='product-notfound'> Sorry, there are no results with the selected filters. 
                                   <button type="button">Clear filters</button>
                                   </h2>
@@ -495,7 +496,7 @@ const updateProductsSection = (products) => {
 
   }
   createSectionTitle("Products", productsSection);
-  for (product of products) {
+  for (product of productsToUpdate) {
     productsBox.innerHTML += getProductCardTemplate(product);
   };
 
