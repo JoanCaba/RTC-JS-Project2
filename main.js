@@ -498,27 +498,12 @@ const updateProductsSection = (productsToUpdate) => {
     return
 
   }
-  createSectionTitle("Products", productsSection);
+  createSectionTitle(`Products(${productsToUpdate.length})`, productsSection);
   for (product of productsToUpdate) {
     productsBox.innerHTML += getProductCardTemplate(product);
   };
 
   productsSection.appendChild(productsBox)
-  /*
-  productsSection.innerHTML = [];
-  for (product of products) {
-    productsSection.innerHTML += getProductCardTemplate(product);
-  };
-  if (products.length == 0) {
-    productsSection.innerHTML += `<h2> Sorry, there are no results with the selected filters. 
-                                  <button class="clear-button-notfound" type="button">Clear filters</button>
-                                  </h2>
-                                  `;
-    const clearButton = document.querySelector(".clear-button-notfound");
-    clearButton.addEventListener('click', onButtonClearClicked);
-  }
-
-  */
 };
 const createHeader = () => { }
 
