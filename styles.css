@@ -1,16 +1,4 @@
 :root {
-/*
-bg color #5a3806
-    background: #000 url(/protected/image/layout/crucible-bg.jpg?v=1682897766942&key=eWUOOCmfNaN7mG2fFatw5Q) no-repeat top center fixed;
-
-background inputs 1e2124
-text color 1 #a38d6d
-borders color  #465260
-borders color 2 #634928
-general text color #fff8e1
-background color text inputs rgba(45,49,54,.3)
-*/
-
 --primary-background: #412703ce;
 --secondary-background: #1e2124ce;
 --primary-text: #fff8e1;
@@ -19,26 +7,6 @@ background color text inputs rgba(45,49,54,.3)
 --secondary-border: #634928;
 --contrast-color:#d01c76;
 --high-contrast-color:#db1259;
-
-/*
-  --primary-color: #020d29;
-  --secondary-color: #f5d239;
-  --tertiary-color: #e2a41b;
-  --quaternary-color: #cc7c40;
-  --contrast-color:#d01c76;
-  --high-contrast-color:#db1259;
- --primary-gradient: linear-gradient(-45deg, 
-        var(--primary-color), 
-        #033643,
-        #0f696d, 
-        #0095a0);
- --secondary-gradient: linear-gradient(-45deg, 
-        var(--primary-color), 
-        #6f7258, 
-        #cb8711, 
-        var(--quaternary-color));
-        */
-
 }
 * {
   box-sizing: border-box;
@@ -50,12 +18,37 @@ background color text inputs rgba(45,49,54,.3)
 body {
   background: #000 url(./assets/crucible-background.jpg) no-repeat top center fixed;
 }
+input {
+  border: 1px solid var(--secondary-border);
+  background-color: var(--primary-background);
+  color: var(--primary-text);
+}
+
+label, select, option, optgroup {
+  color: var(--secondary-text);
+  background-color: var(--secondary-background);
+}
 label {
   text-transform: capitalize;
 }
 label::after{
   content: ": ";
 }
+header {
+  text-align: center;
+  margin-top: 20px;
+}
+footer {
+  background-color: var(--secondary-background);
+  color: var(--secondary-text);
+  margin: 10px;
+  padding: 15px;
+  text-align: center;
+}
+footer > p {
+  margin: 10px;
+}
+
 /* START: ProductCard styles */
 .products-list {
   display: grid;
@@ -114,14 +107,15 @@ label::after{
     border: 2px solid var(--primary-border);
     background-color: var(--primary-background);
     color: var(--primary-text);
-    animation: flip-vertical-right 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
-    backface-visibility: hidden;
+    /* animation: flip-vertical-right 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite; */
+    /* backface-visibility: hidden; */
 }
 .product-card span:nth-child(4) {
+  top: 6rem;
   border: 2px solid var(--secondary-border);
   background-color: var(--secondary-background);
   color: var(--secondary-text);
-  animation: flip-vertical-left 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
+  /* animation: flip-vertical-left 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite; */
 }
 /* PRICE */
 .product-card span:nth-child(5) {
@@ -160,8 +154,34 @@ label::after{
   flex-direction: column;
   align-items: center;
 }
+/* END: ProductCard styles */
+#filters {
+  margin: 10px;
+  padding: 5px;
+  background-color: var(--primary-background);
+  border: 2px solid var(--primary-border)
+}
 
+#filters > div{
+  background-color: var(--secondary-background);
+ border-bottom: 1px solid var(--secondary-border);
+ padding: 5px;
+}
 
+#filters > div {
+  display: flex;
+  width: 100%;
+}
+#filters > div > * {
+  width: 100%;
+}
+.clear-button-container > button, .product-notfound > button {
+  background-color: var(--primary-background);
+  color: var(--primary-text);
+  height: 30px;
+  margin: 5px 2px;
+  padding: 2px;
+}
 
 @keyframes flip-vertical-right {
   0% {
@@ -200,54 +220,31 @@ label::after{
 	}
 }
 
+@media screen and (min-width: 732px){
 
-/* END: ProductCard styles */
-#filters {
-  margin: 10px;
-  padding: 5px;
-  background-color: var(--primary-background);
-  border: 2px solid var(--primary-border)
-}
-label, select, option, optgroup {
-  color: var(--secondary-text);
-  background-color: var(--secondary-background);
-}
-#filters > div{
-  background-color: var(--secondary-background);
- border-bottom: 1px solid var(--secondary-border);
- padding: 5px;
-}
-input {
-  border: 1px solid var(--secondary-border);
-  background-color: var(--primary-background);
-  color: var(--primary-text);
-}
-#filters > div {
-  display: flex;
-  width: 100%;
-}
-#filters > div > * {
-  width: 100%;
-}
-.clear-button-container > button, .product-notfound > button {
-  background-color: var(--primary-background);
-  color: var(--primary-text);
-  height: 30px;
-  margin: 5px 2px;
-  padding: 2px;
-}
+  main {
+    margin: 5px;
+  }
+  #filters {
+    height: 220px;
+    position: fixed;
+  }
+  #products {
+    margin: 30px 10px 20px 220px;
+  }
+  .products-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 20px;
+  }
+  .product-card{
+    width: 20vw;
+    height: 300px;
+    max-width: 200px;
+  }
+  footer {
+    margin: 10px 300px;
+  }
 
-header {
-  text-align: center;
-  margin-top: 20px;
-}
-footer {
-  background-color: var(--secondary-background);
-  color: var(--secondary-text);
-  margin: 10px;
-  padding: 15px;
-  text-align: center;
-}
-footer > p {
-  margin: 10px;
 }
