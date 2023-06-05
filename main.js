@@ -375,7 +375,7 @@ const filterByPrice = (price, products) => {
 };
 
 const onFilterChanged = () => {
-  const filterSellers = document.querySelector('#filter-sellers');
+  const filterSellers = document.querySelector('#filter-seller');
   const filterUniques = document.querySelector('#filter-rarity');
   const filterPrice = document.querySelector('#filter-price');
   const filterName = document.querySelector('#filter-name');
@@ -446,11 +446,14 @@ const resetAllFilters = () => {
   updateProductsSection(products)
 };
 const createClearButton = () => {
+  const buttonBox = document.createElement('div');
   const button = document.createElement("button");
+  buttonBox.classList = 'clear-button-container';
   button.type = "button";
   button.innerHTML = "Clear filters"
   button.addEventListener('click', onButtonClearClicked);
-  filtersSection.appendChild(button);
+  buttonBox.appendChild(button);
+  filtersSection.appendChild(buttonBox);
 };
 const onButtonClearClicked = () => {
   resetAllFilters()
@@ -525,11 +528,9 @@ products.sort((a, b) => {
 const sellersLocations = sellerLocationsToArray();
 const sellersOptionsGroups = sellers.map(seller => ({ optionName: seller.name, optgroupName: seller.location }));
 createSectionTitle("Filters", filtersSection);
-createFilterSelect("sellers", sellersOptionsGroups, sellersLocations);
+createFilterSelect("seller", sellersOptionsGroups, sellersLocations);
 createFilterSelect("rarity", [{ optionName: "Uniques" }, { optionName: "None uniques" }]);
 createInputFilter("price", "number");
 createInputFilter("name", "text")
 createClearButton();
 updateProductsSection(products);
-
-

@@ -64,7 +64,7 @@ label::after{
   gap: 5px;
   margin: 5px;
 }
-#products > h2 {
+#products > h2, #filters > h2 {
   display: flex;
   text-align: center;
   justify-content: space-around;
@@ -161,11 +161,6 @@ label::after{
   align-items: center;
 }
 
-.product-notfound > button{
-  background-color: var(--primary-background);
-  color: var(--primary-text);
-  border: 2px solid var(--primary-border);
-}
 
 
 @keyframes flip-vertical-right {
@@ -208,12 +203,24 @@ label::after{
 
 /* END: ProductCard styles */
 #filters {
+  margin: 10px;
+  padding: 5px;
+  background-color: var(--primary-background);
+  border: 2px solid var(--primary-border)
 }
-
-#filters *{
- color: var(--secondary-text);
- background-color: var(--secondary-background);
- border: 2px solid var(--secondary-border);
+label, select, option, optgroup {
+  color: var(--secondary-text);
+  background-color: var(--secondary-background);
+}
+#filters > div{
+  background-color: var(--secondary-background);
+ border-bottom: 1px solid var(--secondary-border);
+ padding: 5px;
+}
+input {
+  border: 1px solid var(--secondary-border);
+  background-color: var(--primary-background);
+  color: var(--primary-text);
 }
 #filters > div {
   display: flex;
@@ -222,7 +229,10 @@ label::after{
 #filters > div > * {
   width: 100%;
 }
-#filters > button {
-  
-
+.clear-button-container > button, .product-notfound > button {
+  background-color: var(--primary-background);
+  color: var(--primary-text);
+  height: 30px;
+  margin: 5px 2px;
+  padding: 2px;
 }
