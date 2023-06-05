@@ -11,10 +11,10 @@ general text color #fff8e1
 background color text inputs rgba(45,49,54,.3)
 */
 
---primary-background: #5a3806ce;
+--primary-background: #412703ce;
 --secondary-background: #1e2124ce;
 --primary-text: #fff8e1;
---secondary-text: #a38d6d;
+--secondary-text: #DABD93;
 --primary-border: #465260;
 --secondary-border: #634928;
 --contrast-color:#d01c76;
@@ -57,13 +57,17 @@ label::after{
   content: ": ";
 }
 /* START: ProductCard styles */
-#products {
+.products-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-rows: 300px;
   gap: 5px;
   margin: 5px;
-
+}
+#products > h2 {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
 }
 .product-card {
   position: relative;
@@ -109,14 +113,14 @@ label::after{
     width: 90px;
     border: 2px solid var(--primary-border);
     background-color: var(--primary-background);
-    color: var(--secondary-text);
+    color: var(--primary-text);
     animation: flip-vertical-right 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
     backface-visibility: hidden;
 }
 .product-card span:nth-child(4) {
   border: 2px solid var(--secondary-border);
   background-color: var(--secondary-background);
-  color: var(--primary-text);
+  color: var(--secondary-text);
   animation: flip-vertical-left 5s cubic-bezier(0.005, 0.010, 0.515, 0.955) 1s both infinite;
 }
 /* PRICE */
@@ -151,6 +155,19 @@ label::after{
  filter: drop-shadow(0 0 3px var(--high-contrast-color)) brightness(1.75);
  z-index: 10;
 }
+
+.product-notfound {
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-notfound > button{
+  background-color: var(--primary-background);
+  color: var(--primary-text);
+  border: 2px solid var(--primary-border);
+}
+
+
 @keyframes flip-vertical-right {
   0% {
             transform: rotateY(0deg);
@@ -190,9 +207,22 @@ label::after{
 
 
 /* END: ProductCard styles */
+#filters {
+}
 
 #filters *{
  color: var(--secondary-text);
  background-color: var(--secondary-background);
  border: 2px solid var(--secondary-border);
+}
+#filters > div {
+  display: flex;
+  width: 100%;
+}
+#filters > div > * {
+  width: 100%;
+}
+#filters > button {
+  
+
 }

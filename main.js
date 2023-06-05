@@ -338,8 +338,6 @@ const sellerLocationsToArray = () => {
   return locations;
 };
 
-
-
 const createFilterOption = (optionName, type) => {
   const option = document.createElement("option");
   option.value = type + "-" + optionName;
@@ -463,7 +461,7 @@ const createInputFilter = (typeName, inputType) => {
   const filterLabel = document.createElement("label");
   const filterInput = document.createElement("input");
   filterLabel.htmlFor = "filter-" + typeName;
-  filterLabel.innerHTML = "Filter by " + typeName;
+  filterLabel.innerHTML = typeName;
   filterBox.appendChild(filterLabel);
   filterInput.type = inputType;
   filterInput.id = "filter-" + typeName;
@@ -473,7 +471,36 @@ const createInputFilter = (typeName, inputType) => {
   filtersSection.appendChild(filterBox);
 };
 
+const createSectionTitle = (title, section) => {
+  const titleElement = document.createElement("h2");
+  titleElement.innerHTML = title;
+  section.insertBefore(titleElement, section.firstChild);
+};
 const updateProductsSection = (products) => {
+  let productsBox = document.querySelector('.products-list');
+  if (!productsBox) {
+    productsBox = document.createElement("div");
+    productsBox.classList = 'products-list';
+  };
+  productsSection.innerHTML = [];
+
+  if (products.length == 0) {
+    productsSection.innerHTML += `<h2 class='product-notfound'> Sorry, there are no results with the selected filters. 
+                                  <button type="button">Clear filters</button>
+                                  </h2>
+                                  `;
+    const clearButton = document.querySelector(".product-notfound > button");
+    clearButton.addEventListener('click', onButtonClearClicked);
+    return
+
+  }
+  createSectionTitle("Products", productsSection);
+  for (product of products) {
+    productsBox.innerHTML += getProductCardTemplate(product);
+  };
+
+  productsSection.appendChild(productsBox)
+  /*
   productsSection.innerHTML = [];
   for (product of products) {
     productsSection.innerHTML += getProductCardTemplate(product);
@@ -486,18 +513,22 @@ const updateProductsSection = (products) => {
     const clearButton = document.querySelector(".clear-button-notfound");
     clearButton.addEventListener('click', onButtonClearClicked);
   }
+
+  */
 };
 const createHeader = () => { }
-
 
 products.sort((a, b) => {
   return a.price - b.price;
 });
 const sellersLocations = sellerLocationsToArray();
 const sellersOptionsGroups = sellers.map(seller => ({ optionName: seller.name, optgroupName: seller.location }));
+createSectionTitle("Filters", filtersSection);
 createFilterSelect("sellers", sellersOptionsGroups, sellersLocations);
 createFilterSelect("rarity", [{ optionName: "Uniques" }, { optionName: "None uniques" }]);
 createInputFilter("price", "number");
 createInputFilter("name", "text")
 createClearButton();
 updateProductsSection(products);
+
+
